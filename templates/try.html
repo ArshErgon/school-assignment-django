@@ -1,0 +1,10 @@
+<form class="" action="{% url 'try' %}" method="post">
+  {% csrf_token %}
+  {{ form.as_p }}
+  <input type="submit" name="" value="Submit">
+  {{ user }}
+
+</form>
+{% if user.is_authenticated %}
+  <a href="{% url 'logout' %}"><input type="submit" name="log_out" value="log out"></a>
+{% endif %}
