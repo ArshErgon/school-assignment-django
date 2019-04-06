@@ -44,9 +44,13 @@ def teacher_login_page(request):
         return redirect("/")
     return render(request, 'login/teacher_login.html', {"teacher_login_form":teacher_login_form})
 
-#  forgot-password for student and teacher on the template forget-password
-#  ok I have to make it for only teacher only why> because what if student and the teacher share the same name? where it will search for it in teacher_models or student_models
-#  it can return the student password
+#  ----------------------------------How its works?--------------------------
+# ==================================forgot_password==========================
+# 1. A forgot_form is the same form for obth student and teacher forgot_form why they are different? teacher forms is different then student form
+# 2. A variable person_path store the request path then checks if student or teacher string are present in the path, so that it can display different forms in the smae template
+# 3. then the simple condition checks the username, first_name, email in the user-authenticate and if founds search for his/her password from the models.
+# 4. Then the forloop to get the attribute password which I can get without using loop.
+# 5. Rest is same
 
 def forgot_password(request):
     forgot_form = check_first_name = check_email = check_username = password = ""
@@ -54,8 +58,10 @@ def forgot_password(request):
     decide_person = ""
     if "student" in person_path:
         decide_person = "student"
+    elif "teacher" in person_path:
+        decide_person = "teacher"
 
-    print(request.path)
+    print(decide_person)
     if "teacher" in person_path:
         forgot_form = TeacherForgetPassword(request.POST or None)
         print("here the teacher section start")
@@ -73,10 +79,9 @@ def forgot_password(request):
                 for password in passwords:
                         pass
                 password = password.password
-                return render(request, 'login/forgot_password.html', {'forgot_form':forgot_form, 'password':password})
+                return render(request, 'login/forgot_password.html', {'forgot_form':forgot_form, 'password':password, 'decide_person':decide_person})
     if "student" in person_path:
         forgot_form = StudentForgotPassword(request.POST or None)
-        print("we come in the student sections")
         username = request.POST.get("username")
         email = request.POST.get("email")
         first_name = request.POST.get("first_name")
@@ -85,20 +90,13 @@ def forgot_password(request):
         check_username = User.objects.filter(username=username)
         check_first_name = User.objects.filter(first_name=first_name)
         check_email = User.objects.filter(email=email)
-        x = StudentRegistration.objects.filter(student_id=student_id)
-        print(x)
-        print(StudentRegistration.objects.filter(username=username))
-        print(StudentRegistration.objects.filter(first_name=first_name))
-        print("working 1")
         if forgot_form.is_valid():
-            print("working 2")
             if check_username.exists() and check_email.exists() and check_first_name.exists():
-                print("wroking 3")
                 passwords = StudentRegistration.objects.filter(student_id=student_id)
                 for password in passwords:
                     pass
                 password = password.student_password
-                return render(request, 'login/forgot_password.html', {'forgot_form':forgot_form, 'password':password})
+                return render(request, 'login/forgot_password.html', {'forgot_form':forgot_form, 'password':password , 'decide_person':decide_person})
     return render(request, 'login/forgot_password.html', {'forgot_form':forgot_form, 'decide_person':decide_person})
 
 def try_page(request):
