@@ -6,6 +6,7 @@ class TeacherRegistration(models.Model):
     last_name = models.CharField(max_length=100)
     email = models.EmailField(default=True)
     class_teacher_of = models.CharField(max_length=5)
+    phone_number = models.IntegerField()
     password = models.CharField(max_length=100)
 
     def __str__(self):

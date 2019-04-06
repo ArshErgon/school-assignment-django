@@ -10,6 +10,7 @@ class StudentRegistration(models.Model):
     student_class = models.IntegerField()
     student_id = models.IntegerField()
     student_email = models.EmailField()
+    phone_number = models.IntegerField()
     student_password = models.CharField(max_length=100)
 
     def __str__(self):

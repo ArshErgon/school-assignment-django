@@ -25,7 +25,9 @@ class Teacher_Registration(forms.Form):
     username = forms.CharField(widget=forms.TextInput(attrs={'class':'form-control'}))
     first_name = forms.CharField(widget=forms.TextInput(attrs={'class':'form-control'}))
     last_name = forms.CharField(widget=forms.TextInput(attrs={'class':'form-control'}))
+    email = forms.CharField(widget=forms.EmailInput(attrs={'class':'form-control'}))
     class_teacher_of = forms.ChoiceField(widget=forms.Select(attrs={'class':'form-control'}), choices=CHOICES)
+    phone_number = forms.CharField(max_length="10", widget=forms.NumberInput(attrs={'class':'form-control'}))
     password = forms.CharField(widget=forms.PasswordInput(attrs={'class':'form-control', 'placeholder': 'length of 3'}))
     password2 = forms.CharField(label="Confirm Password", widget=forms.PasswordInput(attrs={'class':'form-control'}))
 
@@ -52,6 +54,12 @@ class Teacher_Registration(forms.Form):
 class Teacher_Login(forms.Form):
     username = forms.CharField(widget=forms.TextInput(attrs={'class':'form-control'}))
     password = forms.CharField(widget=forms.PasswordInput(attrs={"class":'form-control'}))
+
+class TeacherForgetPassword(forms.Form):
+    username = forms.CharField(widget=forms.TextInput(attrs={'class':'form-control'}))
+    email = forms.CharField(widget=forms.TextInput(attrs={'class':'form-control'}))
+    first_name = forms.CharField(widget=forms.TextInput(attrs={'class':'form-control'}))
+    phone_number = forms.CharField(widget=forms.NumberInput(attrs={'class':'form-control'}))
 
 class TryForm(forms.Form):
     username = forms.CharField(widget=forms.TextInput())
