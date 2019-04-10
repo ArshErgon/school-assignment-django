@@ -2,26 +2,29 @@ from django import forms
 
 from .models import TryModel
 
+from .models import AddingAssignment
+
 from django.contrib.auth import get_user_model
 
 #  Why I am not using models form because models can not be style
+CHOICES = [
+     ('1', '1'),
+     ('2', '2'),
+     ('3', '3'),
+     ('4', '4'),
+     ('5', '5'),
+     ('6', '6'),
+     ('7', '7'),
+     ('8', '8'),
+     ('9', '9'),
+     ('10', '10'),
+     ('11', '11'),
+     ('12', '12'),
+     ('0', 'none'),
+ ]
+
 User = get_user_model()
 class Teacher_Registration(forms.Form):
-    CHOICES = [
-        ('1', '1'),
-        ('2', '2'),
-        ('3', '3'),
-        ('4', '4'),
-        ('5', '5'),
-        ('6', '6'),
-        ('7', '7'),
-        ('8', '8'),
-        ('9', '9'),
-        ('10', '10'),
-        ('11', '11'),
-        ('12', '12'),
-        ('0', 'none'),
-    ]
     username = forms.CharField(widget=forms.TextInput(attrs={'class':'form-control'}))
     first_name = forms.CharField(widget=forms.TextInput(attrs={'class':'form-control'}))
     last_name = forms.CharField(widget=forms.TextInput(attrs={'class':'form-control'}))
@@ -60,6 +63,13 @@ class TeacherForgetPassword(forms.Form):
     email = forms.CharField(widget=forms.TextInput(attrs={'class':'form-control'}))
     first_name = forms.CharField(widget=forms.TextInput(attrs={'class':'form-control'}))
     phone_number = forms.CharField(widget=forms.NumberInput(attrs={'class':'form-control'}))
+
+class Add_Assignment(forms.ModelForm):
+    teacher_message =  forms.CharField(widget=forms.TextInput(attrs={'class':'form-control'}))
+    Class = forms.ChoiceField(widget=forms.Select(attrs={"class":'form-control'}), choices=CHOICES)
+    class Meta:
+        model = AddingAssignment
+        fields = ['picture_of_assignment']
 
 class TryForm(forms.Form):
     username = forms.CharField(widget=forms.TextInput())
